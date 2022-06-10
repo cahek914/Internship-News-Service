@@ -36,12 +36,12 @@ public abstract class GenericCrudServiceImpl<Entity, FullDto, UpdateDto> impleme
                 .collect(Collectors.toList());
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Page<FullDto> getPage(Pageable pageable) {
-        return getRepository().findAll(pageable)
-                .map(getMapper()::mapEntityToFullDto);
-    }
+//    @Override
+//    @Transactional(readOnly = true)
+//    public Page<FullDto> getPage(Pageable pageable) {
+//        return getRepository().findAll(pageable)
+//                .map(getMapper()::mapEntityToFullDto);
+//    }
 
     @Override
     @Transactional

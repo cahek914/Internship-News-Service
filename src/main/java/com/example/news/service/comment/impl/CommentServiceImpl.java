@@ -9,10 +9,13 @@ import com.example.news.repository.comment.CommentRepository;
 import com.example.news.service.GenericCrudServiceImpl;
 import com.example.news.service.comment.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,8 +35,16 @@ public class CommentServiceImpl extends GenericCrudServiceImpl<Comment, CommentF
     }
 
     @Override
-    public List<Comment> getCommentsByNewsId(Long newsId) {
-        return commentRepository.getCommentsByNewsId(newsId);
+    public List<CommentFullDto> getCommentsByNewsId(Long newsId) {
+        return commentRepository.getCommentsByNewsId(newsId)
+                .stream()
+                .map(commentMapper::mapEntityToFullDto)
+                .collect(Collectors.toList());
     }
 
+    @Override
+    public Page<CommentFullDto> getPage(Long newsId, Pageable page) {
+        return getRepository().findAll(page)
+                .map(getMapper()::mapEntityToFullDto);
+    }
 }

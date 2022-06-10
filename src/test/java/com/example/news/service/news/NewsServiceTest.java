@@ -1,9 +1,9 @@
 package com.example.news.service.news;
 
-import com.example.news.entity.Comment;
 import com.example.news.entity.News;
 import com.example.news.mapper.GenericMapper;
 import com.example.news.mapper.news.NewsMapper;
+import com.example.news.model.comment.CommentFullDto;
 import com.example.news.model.comment.CommentUpdateDto;
 import com.example.news.model.news.NewsFullDto;
 import com.example.news.model.news.NewsUpdateDto;
@@ -86,7 +86,7 @@ public class NewsServiceTest extends GenericCrudServiceTest<News, NewsFullDto, N
         // save comments to database
         commentUpdateDtoList.forEach(commentService::save);
         // check saved comments
-        List<Comment> commentsByNewsId = commentService.getCommentsByNewsId(newsId);
+        List<CommentFullDto> commentsByNewsId = commentService.getCommentsByNewsId(newsId);
         assertThat(commentsByNewsId).hasSize(commentUpdateDtoList.size());
         // delete this news
         newsService.delete(newsId);

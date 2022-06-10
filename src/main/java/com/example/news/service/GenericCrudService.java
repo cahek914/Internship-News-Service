@@ -13,7 +13,7 @@ public interface GenericCrudService<Entity, FullDto, UpdateDto> {
 
     List<FullDto> getList();
 
-    Page<FullDto> getPage(Pageable pageable);
+//    Page<FullDto> getPage(Pageable page);
 
     FullDto save(UpdateDto updateDto);
 

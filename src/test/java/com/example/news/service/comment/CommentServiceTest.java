@@ -14,12 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -79,7 +75,7 @@ public class CommentServiceTest extends GenericCrudServiceTest<Comment, CommentF
         // get some news id
         Long newsId = newsFullDtoList.get(newsFullDtoList.size() / 2).getId();
         // retrieve specific comments by news id
-        List<Comment> commentsByNewsId = commentService.getCommentsByNewsId(newsId);
+        List<CommentFullDto> commentsByNewsId = commentService.getCommentsByNewsId(newsId);
         assertThat(commentsByNewsId.size()).isEqualTo(
                 commentFullDtoList.stream().filter(dto -> dto.getNewsId().equals(newsId)).count());
     }

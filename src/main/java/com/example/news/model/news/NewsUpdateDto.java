@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Getter
@@ -12,12 +14,15 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 public class NewsUpdateDto implements DtoText {
 
+    @NotNull
     private LocalDateTime date;
 
-    //    @Size(max = 255)
+    @NotNull
+    @Size(max = 255)
     private String title;
 
-    //    @Size(max = 2048)
+    @NotNull
+    @Size(max = 2048)
     private String text;
 
 }
