@@ -1,20 +1,32 @@
 package com.example.news.service.news.impl;
 
 import com.example.news.entity.News;
-import com.example.news.repository.GenericRepository;
+import com.example.news.mapper.GenericMapper;
+import com.example.news.mapper.news.NewsMapper;
+import com.example.news.model.news.NewsFullDto;
+import com.example.news.model.news.NewsUpdateDto;
 import com.example.news.repository.news.NewsRepository;
 import com.example.news.service.GenericCrudServiceImpl;
 import com.example.news.service.news.NewsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 @RequiredArgsConstructor
-public class NewsServiceImpl extends GenericCrudServiceImpl<News> implements NewsService {
+public class NewsServiceImpl extends GenericCrudServiceImpl<News, NewsFullDto, NewsUpdateDto> implements NewsService {
 
     private final NewsRepository newsRepository;
+    private final NewsMapper newsMapper;
 
     @Override
-    protected GenericRepository<News> getRepository() {
+    protected JpaRepository<News, Long> getRepository() {
         return newsRepository;
+    }
+
+    @Override
+    protected GenericMapper<News, NewsFullDto, NewsUpdateDto> getMapper() {
+        return newsMapper;
     }
 
 }

@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,8 +17,13 @@ public class Comment {
 
     private LocalDateTime date;
 
+    @NotNull
+    @Size(max = 2048)
+    @Column(length = 2048, nullable = false)
     private String text;
 
+    @NotNull
+    @Column(nullable = false)
     private String userName;
 
     @NotNull

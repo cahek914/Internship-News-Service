@@ -5,17 +5,19 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public interface GenericCrudService<T> {
+public interface GenericCrudService<Entity, FullDto, UpdateDto> {
 
-    T getById(Long id);
+    FullDto getById(Long id);
 
-    List<T> getList();
+    Entity getEntity(Long id);
 
-    Page<T> getPage(Pageable pageable);
+    List<FullDto> getList();
 
-    T save(T entity);
+    Page<FullDto> getPage(Pageable pageable);
 
-    T update(Long id, T entity);
+    FullDto save(UpdateDto updateDto);
+
+    FullDto update(Long id, UpdateDto updateDto);
 
     void delete(Long id);
 

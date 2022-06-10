@@ -1,42 +1,72 @@
 package com.example.news.service;
 
-import com.example.news.repository.GenericRepository;
+import com.example.news.exception.GenericServiceException;
+import com.example.news.mapper.GenericMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-public abstract class GenericCrudServiceImpl<T> implements GenericCrudService<T> {
+public abstract class GenericCrudServiceImpl<Entity, FullDto, UpdateDto> implements GenericCrudService<Entity, FullDto, UpdateDto> {
 
-    protected abstract GenericRepository<T> getRepository();
+    protected abstract JpaRepository<Entity, Long> getRepository();
+
+    protected abstract GenericMapper<Entity, FullDto, UpdateDto> getMapper();
 
     @Override
-    public T getById(Long id) {
-        return null;
+    @Transactional(readOnly = true)
+    public FullDto getById(Long id) {
+        return getMapper().mapEntityToFullDto(getEntity(id));
     }
 
     @Override
-    public List<T> getList() {
-        return null;
+    @Transactional(readOnly = true)
+    public Entity getEntity(Long id) {
+        return getRepository().findById(id).orElseThrow(() -> new GenericServiceException.NotFound(id));
     }
 
     @Override
-    public Page<T> getPage(Pageable pageable) {
-        return null;
+    @Transactional(readOnly = true)
+    public List<FullDto> getList() {
+        return getRepository().findAll().stream()
+                .map(getMapper()::mapEntityToFullDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public T save(T entity) {
-        return null;
+    @Transactional(readOnly = true)
+    public Page<FullDto> getPage(Pageable pageable) {
+        return getRepository().findAll(pageable)
+                .map(getMapper()::mapEntityToFullDto);
     }
 
     @Override
-    public T update(Long id, T entity) {
-        return null;
+    @Transactional
+    public FullDto save(UpdateDto updateDto) {
+        return getMapper().mapEntityToFullDto(
+                getRepository().save(
+                        getMapper().mapForSaveEntity(updateDto)
+                )
+        );
     }
 
     @Override
+    @Transactional
+    public FullDto update(Long id, UpdateDto updateDto) {
+        return getMapper().mapEntityToFullDto(
+                getRepository().save(
+                        getMapper().mapForUpdateEntity(getEntity(id), updateDto)
+                )
+        );
+    }
+
+    @Override
+    @Transactional
     public void delete(Long id) {
-
+        getRepository().delete(getEntity(id));
     }
+
 }

@@ -7,6 +7,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +23,14 @@ public class News {
 
     private LocalDateTime date;
 
+    @NotNull
+    @Size(max = 255)
+    @Column(nullable = false)
     private String title;
 
-    @Column(length = 2048)
+    @NotNull
+    @Size(max = 2048)
+    @Column(length = 2048, nullable = false)
     private String text;
 
     @OneToMany(mappedBy = "news",
