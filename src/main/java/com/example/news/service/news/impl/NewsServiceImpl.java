@@ -35,7 +35,7 @@ public class NewsServiceImpl extends GenericCrudServiceImpl<News, NewsFullDto, N
     @Override
     @Transactional(readOnly = true)
     public Page<NewsFullDto> getPage(Pageable page) {
-        return getRepository().findAll(page)
+        return newsRepository.findAll(page)
                 .map(getMapper()::mapEntityToFullDto);
     }
 

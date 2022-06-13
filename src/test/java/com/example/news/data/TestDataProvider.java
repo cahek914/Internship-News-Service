@@ -1,6 +1,8 @@
 package com.example.news.data;
 
+import com.example.news.model.comment.CommentFullDto;
 import com.example.news.model.comment.CommentUpdateDto;
+import com.example.news.model.news.NewsFullDto;
 import com.example.news.model.news.NewsUpdateDto;
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.springframework.stereotype.Component;
@@ -25,19 +27,37 @@ public class TestDataProvider {
     }
 
     public NewsUpdateDto getNewsUpdateDto() {
-        NewsUpdateDto newsUpdateDto = new NewsUpdateDto();
-        newsUpdateDto.setDate(LocalDateTime.now().minusHours((long) (Math.random() * 100)));
-        newsUpdateDto.setTitle(RandomString.make(DEFAULT_TEXT_FIELD_LENGTH));
-        newsUpdateDto.setText(RandomString.make(MAX_TEXT_LENGTH));
-        return newsUpdateDto;
+        return fillNewsDto(new NewsUpdateDto());
+    }
+
+    public NewsFullDto getNewsFullDto() {
+        NewsFullDto newsFullDto = new NewsFullDto();
+        newsFullDto.setId(IdGenerator.getId());
+        return fillNewsDto(newsFullDto);
+    }
+
+    private <T extends NewsUpdateDto> T fillNewsDto(T newsDto) {
+        newsDto.setDate(LocalDateTime.now().minusHours((long) (Math.random() * 100)));
+        newsDto.setTitle(RandomString.make(DEFAULT_TEXT_FIELD_LENGTH));
+        newsDto.setText(RandomString.make(MAX_TEXT_LENGTH));
+        return newsDto;
     }
 
     public CommentUpdateDto getCommentUpdateDto() {
-        CommentUpdateDto commentUpdateDto = new CommentUpdateDto();
-        commentUpdateDto.setDate(LocalDateTime.now().minusHours((long) (Math.random() * 100)));
-        commentUpdateDto.setUserName(RandomString.make(DEFAULT_TEXT_FIELD_LENGTH));
-        commentUpdateDto.setText(RandomString.make(MAX_TEXT_LENGTH));
-        return commentUpdateDto;
+        return fillCommentDto(new CommentUpdateDto());
+    }
+
+    public CommentFullDto getCommentFullDto() {
+        CommentFullDto commentFullDto = new CommentFullDto();
+        commentFullDto.setId(IdGenerator.getId());
+        return fillCommentDto(commentFullDto);
+    }
+
+    private <T extends CommentUpdateDto> T fillCommentDto(T commentDto) {
+        commentDto.setDate(LocalDateTime.now().minusHours((long) (Math.random() * 100)));
+        commentDto.setUserName(RandomString.make(DEFAULT_TEXT_FIELD_LENGTH));
+        commentDto.setText(RandomString.make(MAX_TEXT_LENGTH));
+        return commentDto;
     }
 
     public CommentUpdateDto getCommentUpdateDtoWithNewsId(Long newsId) {
@@ -52,6 +72,16 @@ public class TestDataProvider {
             list.add(getCommentUpdateDtoWithNewsId(newsId));
         }
         return list;
+    }
+
+    private static class IdGenerator {
+
+        private static Long id = 1L;
+
+        public static Long getId() {
+            return id++;
+        }
+
     }
 
 }

@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +36,7 @@ public class CommentServiceImpl extends GenericCrudServiceImpl<Comment, CommentF
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CommentFullDto> getCommentsByNewsId(Long newsId) {
         return commentRepository.getCommentsByNewsId(newsId)
                 .stream()
@@ -43,8 +45,10 @@ public class CommentServiceImpl extends GenericCrudServiceImpl<Comment, CommentF
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<CommentFullDto> getPage(Long newsId, Pageable page) {
-        return getRepository().findAll(page)
+        return commentRepository.getPageByNewsId(newsId, page)
                 .map(getMapper()::mapEntityToFullDto);
     }
+
 }

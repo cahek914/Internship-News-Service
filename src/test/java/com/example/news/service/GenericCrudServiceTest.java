@@ -5,7 +5,7 @@ import com.example.news.data.TestDataProvider;
 import com.example.news.exception.GenericServiceException;
 import com.example.news.mapper.GenericMapper;
 import com.example.news.model.DtoId;
-import com.example.news.model.DtoText;
+import com.example.news.model.TextDto;
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public abstract class GenericCrudServiceTest<Entity, FullDto extends DtoText & DtoId, UpdateDto extends DtoText> {
+public abstract class GenericCrudServiceTest<Entity, FullDto extends TextDto & DtoId, UpdateDto extends TextDto> {
 
     protected static final int MINIMUM_ARRAY_SIZE = 5;
     protected static final int ARRAY_SIZE_DELTA = 10;

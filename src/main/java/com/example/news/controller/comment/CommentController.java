@@ -8,8 +8,9 @@ import com.example.news.service.GenericCrudService;
 import com.example.news.service.comment.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/comments")
@@ -32,11 +32,9 @@ public class CommentController extends GenericCrudController<Comment, CommentFul
     }
 
     @GetMapping
-    public ResponseEntity<Page<CommentFullDto>> getPage(@RequestParam @NotNull Long newsId,
-                                                        @RequestParam(required = false) Pageable page) {
-        if (Objects.isNull(page)) {
-            return ResponseEntity.ok(new PageImpl<>(commentService.getCommentsByNewsId(newsId)));
-        }
+    public ResponseEntity<Page<CommentFullDto>> getPage(
+            @RequestParam @NotNull Long newsId,
+            @PageableDefault(sort = "date", direction = Sort.Direction.DESC) Pageable page) {
         return ResponseEntity.ok(commentService.getPage(newsId, page));
     }
 

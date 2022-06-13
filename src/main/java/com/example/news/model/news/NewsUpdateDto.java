@@ -1,6 +1,6 @@
 package com.example.news.model.news;
 
-import com.example.news.model.DtoText;
+import com.example.news.model.TextDto;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@EqualsAndHashCode
-public class NewsUpdateDto implements DtoText {
+@EqualsAndHashCode(callSuper = true)
+public class NewsUpdateDto extends TextDto {
 
     @NotNull
     private LocalDateTime date;
@@ -20,9 +20,5 @@ public class NewsUpdateDto implements DtoText {
     @NotNull
     @Size(max = 255)
     private String title;
-
-    @NotNull
-    @Size(max = 2048)
-    private String text;
 
 }

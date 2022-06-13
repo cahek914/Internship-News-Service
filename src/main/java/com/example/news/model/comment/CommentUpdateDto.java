@@ -1,6 +1,6 @@
 package com.example.news.model.comment;
 
-import com.example.news.model.DtoText;
+import com.example.news.model.TextDto;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,15 +11,11 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@EqualsAndHashCode
-public class CommentUpdateDto implements DtoText {
+@EqualsAndHashCode(callSuper = true)
+public class CommentUpdateDto extends TextDto {
 
     @NotNull
     private LocalDateTime date;
-
-    @NotNull
-    @Size(max = 2048)
-    private String text;
 
     @NotNull
     @Size(max = 255)
