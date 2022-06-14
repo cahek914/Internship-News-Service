@@ -2,7 +2,7 @@ package com.example.news.controller.comment;
 
 import com.example.news.controller.GenericCrudControllerTest;
 import com.example.news.data.TestDataProvider;
-import com.example.news.entity.Comment;
+import com.example.news.entity.comment.Comment;
 import com.example.news.mapper.GenericMapper;
 import com.example.news.mapper.comment.CommentMapper;
 import com.example.news.model.comment.CommentFullDto;

@@ -1,7 +1,8 @@
 package com.example.news.controller.comment;
 
 import com.example.news.controller.GenericCrudController;
-import com.example.news.entity.Comment;
+import com.example.news.entity.comment.Comment;
+import com.example.news.entity.comment.CommentSpecification;
 import com.example.news.model.comment.CommentFullDto;
 import com.example.news.model.comment.CommentUpdateDto;
 import com.example.news.service.GenericCrudService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @RestController
 @RequestMapping("/comments")
@@ -36,6 +38,13 @@ public class CommentController extends GenericCrudController<Comment, CommentFul
             @RequestParam @NotNull Long newsId,
             @PageableDefault(sort = "date", direction = Sort.Direction.DESC) Pageable page) {
         return ResponseEntity.ok(commentService.getPage(newsId, page));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<CommentFullDto>> searchList(
+            @RequestParam @NotNull Long newsId,
+            @RequestParam @NotNull String filter) {
+        return ResponseEntity.ok(commentService.searchList(new CommentSpecification(newsId, filter)));
     }
 
 }

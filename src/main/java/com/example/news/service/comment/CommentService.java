@@ -1,6 +1,6 @@
 package com.example.news.service.comment;
 
-import com.example.news.entity.Comment;
+import com.example.news.entity.comment.Comment;
 import com.example.news.model.comment.CommentFullDto;
 import com.example.news.model.comment.CommentUpdateDto;
 import com.example.news.service.GenericCrudService;

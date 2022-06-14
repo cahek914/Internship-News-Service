@@ -2,9 +2,8 @@ package com.example.news.service;
 
 import com.example.news.exception.GenericServiceException;
 import com.example.news.mapper.GenericMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.news.repository.GenericRepository;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.stream.Collectors;
 
 public abstract class GenericCrudServiceImpl<Entity, FullDto, UpdateDto> implements GenericCrudService<Entity, FullDto, UpdateDto> {
 
-    protected abstract JpaRepository<Entity, Long> getRepository();
+    protected abstract GenericRepository<Entity> getRepository();
 
     protected abstract GenericMapper<Entity, FullDto, UpdateDto> getMapper();
 
@@ -36,12 +35,13 @@ public abstract class GenericCrudServiceImpl<Entity, FullDto, UpdateDto> impleme
                 .collect(Collectors.toList());
     }
 
-//    @Override
-//    @Transactional(readOnly = true)
-//    public Page<FullDto> getPage(Pageable pageable) {
-//        return getRepository().findAll(pageable)
-//                .map(getMapper()::mapEntityToFullDto);
-//    }
+    @Override
+    @Transactional(readOnly = true)
+    public List<FullDto> searchList(Specification<Entity> specification) {
+        return getRepository().findAll(specification).stream()
+                .map(getMapper()::mapEntityToFullDto)
+                .collect(Collectors.toList());
+    }
 
     @Override
     @Transactional

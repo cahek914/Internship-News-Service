@@ -1,17 +1,17 @@
 package com.example.news.service.news.impl;
 
-import com.example.news.entity.News;
+import com.example.news.entity.news.News;
 import com.example.news.mapper.GenericMapper;
 import com.example.news.mapper.news.NewsMapper;
 import com.example.news.model.news.NewsFullDto;
 import com.example.news.model.news.NewsUpdateDto;
+import com.example.news.repository.GenericRepository;
 import com.example.news.repository.news.NewsRepository;
 import com.example.news.service.GenericCrudServiceImpl;
 import com.example.news.service.news.NewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +23,7 @@ public class NewsServiceImpl extends GenericCrudServiceImpl<News, NewsFullDto, N
     private final NewsMapper newsMapper;
 
     @Override
-    protected JpaRepository<News, Long> getRepository() {
+    protected GenericRepository<News> getRepository() {
         return newsRepository;
     }
 

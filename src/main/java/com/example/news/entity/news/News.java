@@ -1,5 +1,6 @@
-package com.example.news.entity;
+package com.example.news.entity.news;
 
+import com.example.news.entity.comment.Comment;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

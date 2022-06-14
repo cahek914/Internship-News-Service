@@ -1,17 +1,17 @@
 package com.example.news.service.comment.impl;
 
-import com.example.news.entity.Comment;
+import com.example.news.entity.comment.Comment;
 import com.example.news.mapper.GenericMapper;
 import com.example.news.mapper.comment.CommentMapper;
 import com.example.news.model.comment.CommentFullDto;
 import com.example.news.model.comment.CommentUpdateDto;
+import com.example.news.repository.GenericRepository;
 import com.example.news.repository.comment.CommentRepository;
 import com.example.news.service.GenericCrudServiceImpl;
 import com.example.news.service.comment.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +26,7 @@ public class CommentServiceImpl extends GenericCrudServiceImpl<Comment, CommentF
     private final CommentMapper commentMapper;
 
     @Override
-    protected JpaRepository<Comment, Long> getRepository() {
+    protected GenericRepository<Comment> getRepository() {
         return commentRepository;
     }
 

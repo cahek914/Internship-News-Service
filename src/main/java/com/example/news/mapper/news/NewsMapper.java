@@ -1,6 +1,6 @@
 package com.example.news.mapper.news;
 
-import com.example.news.entity.News;
+import com.example.news.entity.news.News;
 import com.example.news.mapper.GenericMapper;
 import com.example.news.model.news.NewsFullDto;
 import com.example.news.model.news.NewsUpdateDto;

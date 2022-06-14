@@ -1,7 +1,6 @@
 package com.example.news.service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ public interface GenericCrudService<Entity, FullDto, UpdateDto> {
 
     List<FullDto> getList();
 
-//    Page<FullDto> getPage(Pageable page);
+    List<FullDto> searchList(Specification<Entity> specification);
 
     FullDto save(UpdateDto updateDto);
 

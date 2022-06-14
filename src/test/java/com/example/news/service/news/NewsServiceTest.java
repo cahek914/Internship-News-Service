@@ -1,6 +1,6 @@
 package com.example.news.service.news;
 
-import com.example.news.entity.News;
+import com.example.news.entity.news.News;
 import com.example.news.mapper.GenericMapper;
 import com.example.news.mapper.news.NewsMapper;
 import com.example.news.model.comment.CommentFullDto;

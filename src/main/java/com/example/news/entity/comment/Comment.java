@@ -1,5 +1,6 @@
-package com.example.news.entity;
+package com.example.news.entity.comment;
 
+import com.example.news.entity.news.News;
 import lombok.Data;
 
 import javax.persistence.*;

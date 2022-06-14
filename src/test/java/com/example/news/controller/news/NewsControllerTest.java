@@ -2,7 +2,7 @@ package com.example.news.controller.news;
 
 import com.example.news.controller.GenericCrudControllerTest;
 import com.example.news.data.TestDataProvider;
-import com.example.news.entity.News;
+import com.example.news.entity.news.News;
 import com.example.news.mapper.GenericMapper;
 import com.example.news.mapper.news.NewsMapper;
 import com.example.news.model.news.NewsFullDto;
