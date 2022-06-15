@@ -10,6 +10,7 @@ import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 
 import javax.validation.ValidationException;
 import java.util.List;
@@ -18,7 +19,10 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public abstract class GenericCrudServiceTest<Entity, FullDto extends TextDto & DtoId, UpdateDto extends TextDto> {
+public abstract class GenericCrudServiceTest<Entity,
+        FullDto extends TextDto & DtoId,
+        UpdateDto extends TextDto,
+        EntitySpec extends Specification<Entity>> {
 
     protected static final int MINIMUM_ARRAY_SIZE = 5;
     protected static final int ARRAY_SIZE_DELTA = 10;
@@ -114,6 +118,26 @@ public abstract class GenericCrudServiceTest<Entity, FullDto extends TextDto & D
 
         assertThatThrownBy(() -> getService().delete(100000L))
                 .isInstanceOf(GenericServiceException.NotFound.class);
+
+    }
+
+    protected void searchRequestImplementation(UpdateDto updateDto, EntitySpec specification) {
+
+        List<UpdateDto> updateDtoList =
+                dataProvider.getRandomListOf(this::getUpdateDto, MINIMUM_ARRAY_SIZE, ARRAY_SIZE_DELTA);
+        updateDtoList.add(updateDto);
+        assertThat(updateDtoList.size()).isGreaterThanOrEqualTo(MINIMUM_ARRAY_SIZE);
+
+        List<FullDto> fullDtoList = updateDtoList.stream().map(getService()::save).collect(Collectors.toList());
+        assertThat(fullDtoList).hasSize(updateDtoList.size());
+
+        List<FullDto> resultList = getService().searchList(specification);
+        assertThat(resultList).hasSize(1);
+
+        FullDto newsFullDto = resultList.get(0);
+        assertThat(newsFullDto).isNotNull();
+
+        assertThat(getMapper().mapFullDtoToUpdateDto(newsFullDto)).isEqualTo(updateDto);
 
     }
 

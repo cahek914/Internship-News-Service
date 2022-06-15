@@ -1,6 +1,7 @@
 package com.example.news.service.news;
 
 import com.example.news.entity.news.News;
+import com.example.news.entity.news.NewsSpecification;
 import com.example.news.mapper.GenericMapper;
 import com.example.news.mapper.news.NewsMapper;
 import com.example.news.model.comment.CommentFullDto;
@@ -22,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
-public class NewsServiceTest extends GenericCrudServiceTest<News, NewsFullDto, NewsUpdateDto> {
+public class NewsServiceTest extends GenericCrudServiceTest<News, NewsFullDto, NewsUpdateDto, NewsSpecification> {
 
     @Autowired
     private NewsService newsService;
@@ -94,6 +95,22 @@ public class NewsServiceTest extends GenericCrudServiceTest<News, NewsFullDto, N
         commentsByNewsId = commentService.getCommentsByNewsId(newsId);
         assertThat(commentsByNewsId).hasSize(0);
 
+    }
+
+    @Test
+    public void searchRequestShouldReturnEntityWithSpecificText() {
+        String searchRequest = RandomString.make(10);
+        NewsUpdateDto updateDto = getUpdateDto();
+        updateDto.setText(searchRequest);
+        searchRequestImplementation(updateDto, new NewsSpecification(searchRequest));
+    }
+
+    @Test
+    public void searchRequestShouldReturnEntityWithSpecificTitle() {
+        String searchRequest = RandomString.make(10);
+        NewsUpdateDto updateDto = getUpdateDto();
+        updateDto.setTitle(searchRequest);
+        searchRequestImplementation(updateDto, new NewsSpecification(searchRequest));
     }
 
 }

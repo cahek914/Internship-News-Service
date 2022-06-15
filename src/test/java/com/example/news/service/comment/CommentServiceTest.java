@@ -1,6 +1,7 @@
 package com.example.news.service.comment;
 
 import com.example.news.entity.comment.Comment;
+import com.example.news.entity.comment.CommentSpecification;
 import com.example.news.mapper.GenericMapper;
 import com.example.news.mapper.comment.CommentMapper;
 import com.example.news.model.comment.CommentFullDto;
@@ -10,6 +11,7 @@ import com.example.news.model.news.NewsUpdateDto;
 import com.example.news.service.GenericCrudService;
 import com.example.news.service.GenericCrudServiceTest;
 import com.example.news.service.news.NewsService;
+import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +22,7 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-public class CommentServiceTest extends GenericCrudServiceTest<Comment, CommentFullDto, CommentUpdateDto> {
+public class CommentServiceTest extends GenericCrudServiceTest<Comment, CommentFullDto, CommentUpdateDto, CommentSpecification> {
 
     @Autowired
     private CommentService commentService;
@@ -78,6 +80,22 @@ public class CommentServiceTest extends GenericCrudServiceTest<Comment, CommentF
         List<CommentFullDto> commentsByNewsId = commentService.getCommentsByNewsId(newsId);
         assertThat(commentsByNewsId.size()).isEqualTo(
                 commentFullDtoList.stream().filter(dto -> dto.getNewsId().equals(newsId)).count());
+    }
+
+    @Test
+    public void searchRequestShouldReturnEntityWithSpecificUserName() {
+        String searchRequest = RandomString.make(10);
+        CommentUpdateDto updateDto = getUpdateDto();
+        updateDto.setUserName(searchRequest);
+        searchRequestImplementation(updateDto, new CommentSpecification(updateDto.getNewsId(), searchRequest));
+    }
+
+    @Test
+    public void searchRequestShouldReturnEntityWithSpecificText() {
+        String searchRequest = RandomString.make(10);
+        CommentUpdateDto updateDto = getUpdateDto();
+        updateDto.setText(searchRequest);
+        searchRequestImplementation(updateDto, new CommentSpecification(updateDto.getNewsId(), searchRequest));
     }
 
 }

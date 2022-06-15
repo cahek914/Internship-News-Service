@@ -8,6 +8,7 @@ import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -37,7 +38,7 @@ public class TestDataProvider {
     }
 
     private <T extends NewsUpdateDto> T fillNewsDto(T newsDto) {
-        newsDto.setDate(LocalDateTime.now().minusHours((long) (Math.random() * 100)));
+        newsDto.setDate(LocalDateTime.now().minusHours((long) (Math.random() * 100)).truncatedTo(ChronoUnit.MICROS));
         newsDto.setTitle(RandomString.make(DEFAULT_TEXT_FIELD_LENGTH));
         newsDto.setText(RandomString.make(MAX_TEXT_LENGTH));
         return newsDto;
@@ -54,7 +55,7 @@ public class TestDataProvider {
     }
 
     private <T extends CommentUpdateDto> T fillCommentDto(T commentDto) {
-        commentDto.setDate(LocalDateTime.now().minusHours((long) (Math.random() * 100)));
+        commentDto.setDate(LocalDateTime.now().minusHours((long) (Math.random() * 100)).truncatedTo(ChronoUnit.MICROS));
         commentDto.setUserName(RandomString.make(DEFAULT_TEXT_FIELD_LENGTH));
         commentDto.setText(RandomString.make(MAX_TEXT_LENGTH));
         return commentDto;
