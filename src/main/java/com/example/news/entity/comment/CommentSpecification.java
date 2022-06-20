@@ -1,22 +1,24 @@
 package com.example.news.entity.comment;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.domain.Specification;
+import com.example.news.entity.GenericSpecification;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-@RequiredArgsConstructor
-public class CommentSpecification implements Specification<Comment> {
+public class CommentSpecification extends GenericSpecification<Comment> {
 
     private final Long newsId;
-    private final String filter;
+
+    public CommentSpecification(Long newsId, String filter) {
+        super(filter);
+        this.newsId = newsId;
+    }
 
     @Override
     public Predicate toPredicate(Root<Comment> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-        String request = "%" + filter + "%";
+        String request = "%" + getFilter() + "%";
         return criteriaBuilder.and(
                 criteriaBuilder.or(
                         criteriaBuilder.like(root.get("userName"), request),
